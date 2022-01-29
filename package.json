@@ -1,0 +1,31 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "serve": "cd hansenberg-tinder-website && npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hansenberg-tinder/website.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hansenberg-tinder/website/issues"
+  },
+  "homepage": "https://github.com/hansenberg-tinder/website#readme",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.15"
+  }
+}
