@@ -31,7 +31,11 @@ app.post('/trylogin', async (req, res) => {
     console.log(err);
     res
       .status(400)
-      .json({ success: false, msg: err.msg, err: err.err, completeErr: err });
+      .json({
+        success: false,
+        msg: err.response.data.msg,
+        err: err.response.data.err,
+      });
   }
 });
 
