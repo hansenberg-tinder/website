@@ -39,6 +39,7 @@ export default class Home extends Vue {
 	}
 
 	async submit(): Promise<void> {
+		console.log('Try submitting with token: ' + this.accessToken);
 		const login = await axios.post('/trylogin', { token: this.accessToken });
 		this.id = login.data.id;
 		if (login.data.success) {

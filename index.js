@@ -10,6 +10,10 @@ app.use(express.json());
 
 app.post('/trylogin', async (req, res) => {
   const accessToken = req.body.token;
+
+  const unhashedKey = process.env.KEY_UUID_UNHASHED;
+  const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
+
   const r = await axios.post(
     `${process.env.U}login`,
     { accessToken },

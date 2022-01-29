@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.aede0b290e6d60870d8cb967fbc0a15e.js"
+  "/precache-manifest.249b263f557e970fb8275b8d1b6f0504.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "hansenberg-tinder-website"});
