@@ -14,18 +14,25 @@ app.post('/trylogin', async (req, res) => {
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
   const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
 
-  const r = await axios.post(
-    `${process.env.U}login`,
-    { accessToken },
-    {
-      headers: {
-        Authorization: `Bearer ${hashedKey}`,
-      },
-    }
-  );
-  const id = r.data.identificationNumber;
+  try {
+    const r = await axios.post(
+      `${process.env.U}login`,
+      { accessToken },
+      {
+        headers: {
+          Authorization: `Bearer ${hashedKey}`,
+        },
+      }
+    );
+    const id = r.data.identificationNumber;
 
-  return res.status(200).json({ success: true, id });
+    return res.status(200).json({ success: true, id });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(400)
+      .json({ success: false, msg: err.msg, err: err.err, completeErr: err });
+  }
 });
 
 app.get('/names', async (req, res) => {
