@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import SmashOrPass from '../components/SmashOrPass.vue';
 
 @Options({
@@ -40,13 +40,23 @@ export default class Home extends Vue {
 
 	async submit(): Promise<void> {
 		console.log('Try submitting with token: ' + this.accessToken);
-		const login = await axios.post('/trylogin', { token: this.accessToken });
-		this.id = login.data.id;
-		if (login.data.success) {
-			localStorage.setItem('jkl', this.id);
-			this.submitted = true;
-		} else {
-			this.error = login.data.error;
+		try {
+			const login = await axios.post('/trylogin', { token: this.accessToken });
+			this.id = login.data.id;
+			if (login.data.success) {
+				localStorage.setItem('jkl', this.id);
+				this.submitted = true;
+			} else {
+				this.error = login.data.error;
+			}
+		} catch (err: any) {
+			this.error =
+				'Welches von den beiden: ?\n' +
+				err.response.msg +
+				err.response.data.msg +
+				'\n' +
+				err.response.err +
+				err.response.data.err;
 		}
 	}
 }
