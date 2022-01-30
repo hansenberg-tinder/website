@@ -52,12 +52,19 @@ export default class Home extends Vue {
 		} catch (err: any) {
 			this.error =
 				'Welches von den beiden: ?\n' +
-				err.response.msg +
-				err.response.data.msg +
-				'\n' +
-				err.response.err +
-				err.response.data.err;
+				this.getOrEmptyString(err.response.msg) +
+				this.getOrEmptyString(err.response.data.msg) +
+				'\n\n' +
+				this.getOrEmptyString(err.response.err) +
+				this.getOrEmptyString(err.response.data.err);
 		}
+	}
+
+	getOrEmptyString(s: string): string {
+		if (s !== undefined && s !== null) {
+			return s + '\n';
+		}
+		return '';
 	}
 }
 </script>
