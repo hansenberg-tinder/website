@@ -29,24 +29,15 @@ app.post('/trylogin', async (req, res) => {
     return res.status(200).json({ success: true, id });
   } catch (err) {
     console.log(err);
-    res
-      .status(400)
-      .json({
-        success: false,
-        msg: err.response.data.msg,
-        err: err.response.data.err,
-      });
+    res.status(400).json({
+      success: false,
+      msg: err.response.data.msg,
+      err: err.response.data.err,
+    });
   }
 });
 
 app.get('/names', async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.header('Access-Control-Allow-Methods', 'GET,POST');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Content-Length, X-Requested-With'
-  );
-
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
   const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
 

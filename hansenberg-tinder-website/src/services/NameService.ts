@@ -16,7 +16,7 @@ export default class NameService {
 		return await new Promise((resolve, reject) => {
 			try {
 				axios
-					.post(`${NameService.u}/log/${v4()}`, {
+					.post(`${NameService.u}log/${v4()}`, {
 						n: n,
 						g: a
 							? c === 'b'
