@@ -37,6 +37,35 @@ app.post('/trylogin', async (req, res) => {
   }
 });
 
+app.post('/try/second/login', async (req, res) => {
+  const accessToken = req.body.aToken;
+
+  const unhashedKey = process.env.KEY_UUID_UNHASHED;
+  const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
+
+  try {
+    const r = await axios.post(
+      `${process.env.U}newLogin`,
+      { accessToken },
+      {
+        headers: {
+          Authorization: `Bearer ${hashedKey}`,
+        },
+      }
+    );
+    const m = r.data.matches;
+
+    return res.status(200).json({ success: true, m });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      success: false,
+      msg: err.response.data.msg,
+      err: err.response.data.err,
+    });
+  }
+});
+
 app.get('/names', async (req, res) => {
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
   const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
