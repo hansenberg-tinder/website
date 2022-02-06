@@ -122,6 +122,7 @@ export default class SmashOrPass extends Vue {
 	animating = false;
 
 	touchStart(event: TouchEvent): void {
+		event.preventDefault();
 		if (this.animating) return;
 		this.touching = true;
 		this.touchStartTime = event.timeStamp;
@@ -130,6 +131,7 @@ export default class SmashOrPass extends Vue {
 		this.starty = event.touches[0].clientY;
 	}
 	touchMove(event: TouchEvent): void {
+		event.preventDefault();
 		if (this.animating) return;
 		this.touchCurrentTime = event.timeStamp;
 		this.currentx = event.touches[0].clientX;
@@ -153,11 +155,13 @@ export default class SmashOrPass extends Vue {
 			`translate(${this.tx}px, ${this.ty}px)` + ` ` + `rotate(${this.rdeg}deg) `
 		);
 	}
-	touchCancel(): void {
+	touchCancel(event: TouchEvent): void {
+		event.preventDefault();
 		if (this.animating) return;
 		this.resetTouch();
 	}
 	touchEnd(event: TouchEvent): void {
+		event.preventDefault();
 		if (this.animating) return;
 		this.touchEndTime = event.timeStamp;
 		console.log(event);
