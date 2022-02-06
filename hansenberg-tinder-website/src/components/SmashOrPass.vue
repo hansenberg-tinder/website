@@ -62,8 +62,11 @@ export default class SmashOrPass extends Vue {
 		try {
 			console.log('d');
 
-			// TODO: Change back to '/names'
-			const d: string[] = (await axios.get('/names')).data.names;
+			const d: string[] = (
+				await axios.post('/names', {
+					fd: this.dItneilc,
+				})
+			).data.names;
 			console.log(d);
 			this.swipeItems = [];
 

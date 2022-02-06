@@ -8,7 +8,33 @@ require('dotenv').config();
 
 app.use(express.json());
 
-app.post('/trylogin', async (req, res) => {
+function time(req, res, next) {
+  if (new Date().getTime() > new Date(2022, 01, 05, 18).getTime()) {
+    console.log('Too late!');
+    return res.status(200).json({
+      m: true,
+      success: true,
+      s: 'Hi',
+      tl: true,
+    });
+  }
+  next();
+}
+
+function secondTime(req, res, next) {
+  if (new Date().getTime() <= new Date(2022, 01, 05, 18).getTime()) {
+    console.log('Too early!');
+    return res.status(200).json({
+      m: true,
+      success: true,
+      s: 'Bye',
+      te: true,
+    });
+  }
+  next();
+}
+
+app.post('/trylogin', time, async (req, res) => {
   const accessToken = req.body.token;
 
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
@@ -37,7 +63,7 @@ app.post('/trylogin', async (req, res) => {
   }
 });
 
-app.post('/try/second/login', async (req, res) => {
+app.post('/try/second/login', secondTime, async (req, res) => {
   const accessToken = req.body.aToken;
 
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
@@ -66,25 +92,31 @@ app.post('/try/second/login', async (req, res) => {
   }
 });
 
-app.get('/names', async (req, res) => {
+app.post('/names', async (req, res) => {
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
   const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
 
   try {
-    const names = await axios.get(`${process.env.U}retrieve/all/names`, {
-      headers: {
-        Authorization: `Bearer ${hashedKey}`,
+    const names = await axios.post(
+      `${process.env.U}retrieve/all/names`,
+      {
+        toDoId: req.body.fd,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${hashedKey}`,
+        },
+      }
+    );
     console.log(names.data);
     res.status(200).json({ names: names.data });
   } catch (err) {
     console.log('Error' + err);
-    res.status(500).send(err);
+    res.status(500).send('Error');
   }
 });
 
-app.post('/names/log/:random', async (req, res) => {
+app.post('/names/log/:random', time, async (req, res) => {
   const name = req.body.n;
 
   const calcTime = req.body.g - (new Date().getTime() - 5000 * 678);
@@ -98,7 +130,7 @@ app.post('/names/log/:random', async (req, res) => {
 
     return res.status(200).json({ success: undefined });
   } catch (error) {
-    return res.status(200).json({ success: true });
+    return res.status(300).json({ success: true });
   }
 });
 
