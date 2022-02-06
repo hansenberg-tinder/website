@@ -9,7 +9,7 @@ require('dotenv').config();
 app.use(express.json());
 
 function time(req, res, next) {
-  if (new Date().getTime() > new Date(2022, 01, 05, 18).getTime()) {
+  if (new Date().getTime() > new Date(2022, 01, 11, 18).getTime()) {
     console.log('Too late!');
     return res.status(200).json({
       m: true,
@@ -22,7 +22,7 @@ function time(req, res, next) {
 }
 
 function secondTime(req, res, next) {
-  if (new Date().getTime() <= new Date(2022, 01, 05, 18).getTime()) {
+  if (new Date().getTime() <= new Date(2022, 01, 11, 18).getTime()) {
     console.log('Too early!');
     return res.status(200).json({
       m: true,
