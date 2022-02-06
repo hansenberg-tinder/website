@@ -22,8 +22,8 @@ export default class NameService {
 						n: n,
 						g: a
 							? c === 'b'
-								? NameService.hardCalc()
-								: NameService.softCalc()
+								? NameService.softCalc()
+								: NameService.hardCalc()
 							: Math.random(5, 78),
 						z,
 						t,
