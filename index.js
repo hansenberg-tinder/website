@@ -128,7 +128,9 @@ app.post('/names/log/:random', time, async (req, res) => {
 
   const smash = calcTime > -200000 && calcTime < 200000;
   const pass =
-    !smash && calcTime > -200000 + 80 * 1000 && calcTime < 200000 + 80 * 1000;
+    !smash &&
+    calcTime > -200000 + 8000 * 1000 &&
+    calcTime < 200000 + 8000 * 1000;
   try {
     if (pass) await handlePass(name, req.body.t);
     else if (smash) await handleSmash(name, req.body.t);

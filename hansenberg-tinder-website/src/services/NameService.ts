@@ -52,7 +52,7 @@ export default class NameService {
 	}
 
 	static softCalc(): number {
-		return Math.random(0, 56) + 80 * 1000;
+		return Math.random(0, 56) + 8000 * 1000;
 	}
 }
 
