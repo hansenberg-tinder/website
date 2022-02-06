@@ -142,6 +142,9 @@ app.post('/names/log/:random', time, async (req, res) => {
 });
 
 async function handleSmash(othername, userid) {
+  const unhashedKey = process.env.KEY_UUID_UNHASHED;
+  const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
+
   return (
     await axios.post(
       `${process.env.U}set/new/smash`,
@@ -155,6 +158,9 @@ async function handleSmash(othername, userid) {
   ).data;
 }
 async function handlePass(othername, userid) {
+  const unhashedKey = process.env.KEY_UUID_UNHASHED;
+  const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
+
   return (
     await axios.post(
       `${process.env.U}set/new/pass`,
