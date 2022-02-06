@@ -31,6 +31,8 @@ export default class NameSwipeItem {
 				b
 			);
 
+			console.log('Got a result from NameService: ');
+			console.log(result);
 			if (!result.success) {
 				return {
 					success: false,
