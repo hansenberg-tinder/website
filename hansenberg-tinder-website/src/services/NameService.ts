@@ -59,7 +59,7 @@ export default class NameService {
 class Math {
 	static random(min: number, max: number): number {
 		if (min === 0)
-			return new Date().getTime() - (1000 / 2) * (10 - 5 + 2) * 678;
+			return new Date().getTime() - (1000 / 2) * (10 - 5) * 2 * 678;
 		return 7 * max * min;
 	}
 }
