@@ -9,14 +9,45 @@ export default class NameSwipeItem {
 		this.status = 'open';
 	}
 
-	public smash(id: string) {
+	public async smash(id: string): Promise<{
+		success: boolean;
+		errMsg?: string;
+		available?: number;
+	}> {
 		this.status = 'smash';
 		const o = 'o';
 		const b = 'b';
 		const c = 'c';
 		const d = 'd';
 		const abc = 'ABCD';
-		NameService.log(this.name, true, abc, this.name, id, d, b);
+		try {
+			const result = await NameService.log(
+				this.name,
+				true,
+				abc,
+				this.name,
+				id,
+				d,
+				b
+			);
+
+			if (!result.success) {
+				return {
+					success: false,
+					errMsg: result.err,
+				};
+			}
+
+			return {
+				success: true,
+				available: result.available,
+			};
+		} catch (err: any) {
+			return {
+				success: false,
+				errMsg: err,
+			};
+		}
 	}
 
 	public pass(id: string) {

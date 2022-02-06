@@ -3,7 +3,13 @@
 		<h2>SMASH OR PASS?</h2>
 
 		<div v-if="!submitted" class="">
-			Deinen Benutzernamen bitte hier eingeben:
+			Willkommen beim Hansenberg-Tinder! Auf dieser Seite kannst du erst einmal
+			dein Token, das dir ausgeteilt wurde, eingeben. Im Anschluss werden dir
+			nacheinander die Teilnehmer angezeigt, die du nach links (Smash) oder nach
+			rechts (Pass) swipen kannst.
+			<br />
+			Sobald du dein hier Token eingegeben hast, hast du 60 Minuten, um alle
+			Teilnehmer zu swipen:
 			<input v-model="accessToken" />
 			<button @click="submit">Bestätigen</button>
 		</div>

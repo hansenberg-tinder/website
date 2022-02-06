@@ -12,7 +12,7 @@ export default class NameService {
 		t: string | number,
 		g: string | number,
 		c: string
-	): Promise<boolean> {
+	): Promise<{ success: boolean; available?: number; err?: string }> {
 		return await new Promise((resolve, reject) => {
 			console.log(a);
 			console.log(c);
@@ -32,9 +32,20 @@ export default class NameService {
 					})
 					.then(
 						(res) => {
-							const data = res.data;
-							if (data.hi === true) return resolve(true);
-							return resolve(true);
+							const data: {
+								err?: string;
+								success?: boolean;
+								hi?: boolean;
+								available?: number;
+							} = res.data;
+							if (data.err)
+								return resolve({
+									err: data.err,
+									success: false,
+								});
+							if (data.hi === true)
+								return resolve({ success: true, available: -1 });
+							return resolve({ success: true, available: res.data.available });
 						},
 						(err) => {
 							return reject(err);

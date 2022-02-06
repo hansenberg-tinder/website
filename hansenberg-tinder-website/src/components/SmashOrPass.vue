@@ -2,6 +2,10 @@
 	<div class="container">
 		<div class="finished" v-if="finished">
 			<span>Du hast alle Teilnehmer geswiped!</span>
+			<span>
+				Du bekommst demnächst ein weiteres Token ausgeteilt, mit dem du deine
+				Matches sehen kannst.
+			</span>
 		</div>
 		<div class="swipe-container" id="stacked-cards-block" v-if="!finished">
 			<!-- Swipe Items -->
@@ -26,7 +30,8 @@
 			</div>
 		</div>
 
-		<!-- Global actions as alternative to swipe -->
+		<div class="err">{{ error }}</div>
+
 		<div class="global-actions">
 			<div class="circle pass-circle" @click="animateCard(false)">Pass</div>
 			<div class="circle smash-circle" @click="animateCard(true)">Smash</div>
@@ -54,6 +59,8 @@ export default class SmashOrPass extends Vue {
 
 	dItneilc = localStorage.getItem('jkl') || '';
 
+	error = '';
+
 	async created(): Promise<void> {
 		if (this.dItneilc === '' || this.dItneilc === null) {
 			throw new Error('No Benutzername found');
@@ -67,7 +74,10 @@ export default class SmashOrPass extends Vue {
 					fd: this.dItneilc,
 				})
 			).data.names;
-			console.log(d);
+			if (!(d.length > 0)) {
+				this.finished = true;
+			}
+
 			this.swipeItems = [];
 
 			for (let s of d) {
@@ -89,10 +99,15 @@ export default class SmashOrPass extends Vue {
 		return this.swipeItems[this.currentPosition];
 	}
 
-	smashCard(dontCall = false): void {
+	async smashCard(dontCall = false): Promise<void> {
 		console.log('Smash');
-		this.currentCard.smash(this.dItneilc);
-		if (!dontCall) this.animationdone({ animationName: 'smash' });
+		const result = await this.currentCard.smash(this.dItneilc);
+
+		if (result.success) {
+			if (!dontCall) this.animationdone({ animationName: 'smash' });
+		} else {
+			this.error = result.errMsg || '';
+		}
 	}
 
 	passCard(dontCall = false): void {

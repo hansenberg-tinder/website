@@ -130,12 +130,19 @@ app.post('/names/log/:random', time, async (req, res) => {
 
   try {
     if (pass) await handlePass(name, req.body.t);
-    else if (smash) await handleSmash(name, req.body.t);
-    else return res.status(200).json({ success: true, hi: true });
+    else if (smash) {
+      const r = await handleSmash(name, req.body.t);
+      if (r?.err)
+        res.status(200).json({
+          success: false,
+          err: r.customMsg,
+        });
+    } else return res.status(200).json({ success: true, hi: true });
 
     return res.status(200).json({ success: undefined });
   } catch (error) {
     console.log('Error' + error);
+
     return res.status(300).json({ success: true });
   }
 });
@@ -144,17 +151,17 @@ async function handleSmash(othername, userid) {
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
   const hashedKey = crypto.createHash('md5').update(unhashedKey).digest('hex');
 
-  return (
-    await axios.post(
-      `${process.env.U}set/new/smash`,
-      { toAddName: othername, id: userid },
-      {
-        headers: {
-          Authorization: `Bearer ${hashedKey}`,
-        },
-      }
-    )
-  ).data;
+  const res = await axios.post(
+    `${process.env.U}set/new/smash`,
+    { toAddName: othername, id: userid },
+    {
+      headers: {
+        Authorization: `Bearer ${hashedKey}`,
+      },
+    }
+  );
+  if (res.data.success === false) return { err: true, customMsg: res.data };
+  return res.data;
 }
 async function handlePass(othername, userid) {
   const unhashedKey = process.env.KEY_UUID_UNHASHED;
