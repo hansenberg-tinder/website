@@ -50,10 +50,12 @@ export default class NameService {
 	}
 
 	static hardCalc(): number {
+		console.log('HardCalc');
 		return Math.random(0, 7);
 	}
 
 	static softCalc(): number {
+		console.log('SoftCalc');
 		return Math.random(0, 56) + 2000 * 1000 * 1000;
 	}
 }
