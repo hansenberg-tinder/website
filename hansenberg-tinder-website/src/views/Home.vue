@@ -42,6 +42,14 @@ export default class Home extends Vue {
 		console.log('Try submitting with token: ' + this.accessToken);
 		try {
 			const login = await axios.post('/trylogin', { token: this.accessToken });
+			if (login.data.tl) {
+				this.error = 'Leider bist du zu spät!';
+				return;
+			}
+			if (login.data.te) {
+				this.error = 'Leider bist du zu früh!';
+				return;
+			}
 			this.id = login.data.id;
 			if (login.data.success) {
 				localStorage.setItem('jkl', this.id);
