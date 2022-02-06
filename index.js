@@ -136,6 +136,7 @@ app.post('/names/log/:random', time, async (req, res) => {
 
     return res.status(200).json({ success: undefined });
   } catch (error) {
+    console.log('Error' + error);
     return res.status(300).json({ success: true });
   }
 });
