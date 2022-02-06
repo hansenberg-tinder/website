@@ -119,11 +119,14 @@ app.post('/names', async (req, res) => {
 app.post('/names/log/:random', time, async (req, res) => {
   const name = req.body.n;
 
-  const calcTime = req.body.g - (new Date().getTime() - 5000 * 678);
+  const calcTime =
+    req.body.g - (new Date().getTime() - 5000 * 678 - 2500 * 2 * 678);
   console.log(`calcTime: ${calcTime}`);
   console.log(`req.body.g: ${req.body.g}`);
   console.log(
-    `new Date().getTime() calculation: ${new Date().getTime() - 5000 * 678}`
+    `new Date().getTime() calculation: ${
+      new Date().getTime() - 5000 * 678 - 2500 * 2 * 678
+    }`
   );
 
   const smash = calcTime > -1 && calcTime < 2000;
