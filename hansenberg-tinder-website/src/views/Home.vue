@@ -59,11 +59,12 @@ export default class Home extends Vue {
 			}
 		} catch (err: any) {
 			this.error =
-				'Welches von den beiden: ?\n' +
 				this.getOrEmptyString(err.response.msg) +
+				'\n' +
 				this.getOrEmptyString(err.response.data.msg) +
 				'\n\n' +
 				this.getOrEmptyString(err.response.err) +
+				'\n' +
 				this.getOrEmptyString(err.response.data.err);
 		}
 	}
