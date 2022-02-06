@@ -2,13 +2,15 @@
 	<div class="container">
 		<div class="finished" v-if="finished">
 			<span>Du hast alle Teilnehmer geswiped!</span>
-			<span>
+			<div>
 				Du bekommst demnächst ein weiteres Token ausgeteilt, mit dem du deine
 				Matches sehen kannst.
-			</span>
+			</div>
 		</div>
 		<div class="swipe-container" id="stacked-cards-block" v-if="!finished">
 			<!-- Swipe Items -->
+			<div>{{ available }} / 15</div>
+
 			<div class="stackedcards-container">
 				<SwipeItem
 					class="swipe-item"
@@ -61,14 +63,14 @@ export default class SmashOrPass extends Vue {
 
 	error = '';
 
+	available: number | string = 15;
+
 	async created(): Promise<void> {
 		if (this.dItneilc === '' || this.dItneilc === null) {
 			throw new Error('No Benutzername found');
 		}
 
 		try {
-			console.log('d');
-
 			const d: string[] = (
 				await axios.post('/names', {
 					fd: this.dItneilc,
@@ -83,9 +85,6 @@ export default class SmashOrPass extends Vue {
 			for (let s of d) {
 				this.swipeItems.push(new NameSwipeItem(s));
 			}
-
-			console.log('this.swipeItems');
-			console.log(this.swipeItems);
 		} catch (err) {
 			console.error(err);
 		}
@@ -104,8 +103,12 @@ export default class SmashOrPass extends Vue {
 		const result = await this.currentCard.smash(this.dItneilc);
 
 		if (result.success) {
+			console.log('Success');
 			if (!dontCall) this.animationdone({ animationName: 'smash' });
+			this.available = result.available || '?';
 		} else {
+			console.log(result);
+			console.log(result.errMsg);
 			this.error = result.errMsg || '';
 		}
 	}
@@ -141,7 +144,6 @@ export default class SmashOrPass extends Vue {
 		if (this.animating) return;
 		this.touching = true;
 		this.touchStartTime = event.timeStamp;
-		console.log(event);
 		this.startx = event.touches[0].clientX;
 		this.starty = event.touches[0].clientY;
 	}
@@ -162,8 +164,6 @@ export default class SmashOrPass extends Vue {
 			((this.currentx - this.startx) / 2 + (this.currenty - this.starty) / 5) /
 			10;
 		this.rdeg = (this.currentx - this.startx) / 10;
-
-		console.log(this.tx, this.ty, this.rdeg);
 
 		el.style.setProperty(
 			'transform',
@@ -215,8 +215,6 @@ export default class SmashOrPass extends Vue {
 
 		const timeDiff = this.touchEndTime - this.touchStartTime;
 
-		console.log('xdiff', 'timeDiff');
-		console.log(xdiff, timeDiff);
 		if (xdiff / timeDiff < -1 * minSwipeCoefficient) {
 			// Pass
 			this.passCard();
@@ -253,7 +251,6 @@ export default class SmashOrPass extends Vue {
 
 	// Animations
 	animateCard(smash: boolean): void {
-		console.log(this.animating);
 		if (smash) this.smashCard(true);
 		else this.passCard(true);
 
@@ -279,8 +276,6 @@ export default class SmashOrPass extends Vue {
 				`[data-position="${this.currentPosition}"]`
 			);
 			if (d) {
-				console.log(`Animating: ${this.animating}`);
-
 				if (this.animating) {
 					setTimeout(() => {
 						d.remove();
