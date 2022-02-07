@@ -112,7 +112,7 @@ app.post('/names', async (req, res) => {
     res.status(200).json({ names: names.data });
   } catch (err) {
     console.log('Error' + err);
-    res.status(500).send('Error');
+    res.status(400).send(err.response.data.msg);
   }
 });
 
