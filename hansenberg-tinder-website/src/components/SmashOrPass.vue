@@ -88,7 +88,7 @@ export default class SmashOrPass extends Vue {
 		} catch (err: any) {
 			console.error(err);
 			console.log(err);
-			console.log(err);
+			console.dir(err);
 		}
 	}
 
