@@ -111,7 +111,7 @@ app.post('/names', async (req, res) => {
     console.log(names.data);
     res.status(200).json({
       names: names.data.names,
-      available: names.data.available,
+      available: names.data.a,
     });
   } catch (err) {
     console.log('Error' + err.response.data.msg);
