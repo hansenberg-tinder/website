@@ -111,7 +111,7 @@ app.post('/names', async (req, res) => {
     console.log(names.data);
     res.status(200).json({
       names: names.data.names,
-      available: names.data.a,
+      available: names.data.available,
     });
   } catch (err) {
     console.log('Error' + err.response.data.msg);
@@ -140,8 +140,10 @@ app.post('/names/log/:random', time, async (req, res) => {
           success: false,
           err: r.customMsg,
         });
-      else
+      else {
+        console.log(`available: ${r.available}`);
         return res.status(200).json({ success: true, available: r.available });
+      }
     } else return res.status(200).json({ success: true, hi: true });
 
     return res.status(200).json({ success: undefined });
