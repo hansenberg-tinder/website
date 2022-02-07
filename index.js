@@ -140,6 +140,8 @@ app.post('/names/log/:random', time, async (req, res) => {
           success: false,
           err: r.customMsg,
         });
+      else
+        return res.status(200).json({ success: true, available: r.available });
     } else return res.status(200).json({ success: true, hi: true });
 
     return res.status(200).json({ success: undefined });
