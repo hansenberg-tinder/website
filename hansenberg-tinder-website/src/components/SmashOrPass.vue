@@ -1,5 +1,7 @@
 <template>
 	<div class="container">
+		<div class="err" v-if="error !== ''">{{ error }}</div>
+
 		<div class="finished" v-if="finished">
 			<span>Du hast alle Teilnehmer geswiped!</span>
 			<div>
@@ -43,7 +45,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import SwipeItem from './SwipeItem.vue';
 import NameSwipeItem from '../models/NameSwipeItem';
 
@@ -63,7 +65,7 @@ export default class SmashOrPass extends Vue {
 
 	error = '';
 
-	available: number | string = 15;
+	available: number | string = '?';
 
 	async created(): Promise<void> {
 		if (this.dItneilc === '' || this.dItneilc === null) {
@@ -71,11 +73,13 @@ export default class SmashOrPass extends Vue {
 		}
 
 		try {
-			const d: string[] = (
+			const data = (
 				await axios.post('/names', {
 					fd: this.dItneilc,
 				})
-			).data.names;
+			).data;
+			this.available = data.available;
+			const d: string[] = data.names;
 			if (!(d.length > 0)) {
 				this.finished = true;
 			}
