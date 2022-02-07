@@ -86,9 +86,7 @@ export default class SmashOrPass extends Vue {
 				this.swipeItems.push(new NameSwipeItem(s));
 			}
 		} catch (err: any) {
-			console.error(err);
-			console.log(err);
-			console.dir(err);
+			this.error = err.response.data;
 		}
 	}
 
