@@ -10,7 +10,7 @@ app.use(express.json());
 
 function time(req, res, next) {
   if (new Date().getTime() > new Date(2022, 01, 11, 18).getTime()) {
-    console.log('Too late!');
+    console.warn('Too late!');
     return res.status(200).json({
       m: true,
       success: true,
@@ -23,7 +23,7 @@ function time(req, res, next) {
 
 function secondTime(req, res, next) {
   if (new Date().getTime() <= new Date(2022, 01, 11, 18).getTime()) {
-    console.log('Too early!');
+    console.warn('Too early!');
     return res.status(200).json({
       m: true,
       success: true,
@@ -54,7 +54,7 @@ app.post('/trylogin', time, async (req, res) => {
 
     return res.status(200).json({ success: true, id });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json({
       success: false,
       msg: err.response.data.msg,
@@ -83,7 +83,7 @@ app.post('/try/second/login', secondTime, async (req, res) => {
 
     return res.status(200).json({ success: true, m });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json({
       success: false,
       msg: err.response.data.msg,
@@ -108,13 +108,12 @@ app.post('/names', async (req, res) => {
         },
       }
     );
-    console.log(names.data);
     res.status(200).json({
       names: names.data.names,
       available: names.data.available,
     });
   } catch (err) {
-    console.log('Error' + err.response.data.msg);
+    console.error('Error' + err.response.data.msg);
     res.status(400).send(err.response.data.msg);
   }
 });
@@ -123,9 +122,6 @@ app.post('/names/log/:random', time, async (req, res) => {
   const name = req.body.n;
 
   const calcTime = new Date().getTime() - 2500 * 2 * 678;
-  console.log(`req.body.g: ${req.body.g}`);
-
-  console.log(`calcTime: ${calcTime}`);
 
   const smash = Math.abs(calcTime - req.body.g) < 2000;
   const pass =
@@ -142,14 +138,13 @@ app.post('/names/log/:random', time, async (req, res) => {
           err: r.customMsg,
         });
       else {
-        console.log(`available: ${r.available}`);
         return res.status(200).json({ success: true, available: r.available });
       }
     } else return res.status(200).json({ success: true, hi: true });
 
     return res.status(200).json({ success: undefined });
   } catch (error) {
-    console.log('Error' + error);
+    console.error('Error' + error);
 
     return res.status(300).json({ success: true });
   }

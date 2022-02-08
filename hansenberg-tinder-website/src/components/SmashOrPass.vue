@@ -103,22 +103,17 @@ export default class SmashOrPass extends Vue {
 	}
 
 	async smashCard(dontCall = false): Promise<void> {
-		console.log('Smash');
 		const result = await this.currentCard.smash(this.dItneilc);
 
 		if (result.success) {
-			console.log('Success');
 			if (!dontCall) this.animationdone({ animationName: 'smash' });
 			this.available = result.available || '?';
 		} else {
-			console.log(result);
-			console.log(result.errMsg);
 			this.error = result.errMsg || '';
 		}
 	}
 
 	passCard(dontCall = false): void {
-		console.log('Pass');
 		this.currentCard.pass(this.dItneilc);
 		if (!dontCall) this.animationdone({ animationName: 'pass' });
 	}
@@ -183,7 +178,6 @@ export default class SmashOrPass extends Vue {
 		event.preventDefault();
 		if (this.animating) return;
 		this.touchEndTime = event.timeStamp;
-		console.log(event);
 		this.endx = this.currentx;
 		this.endy = this.currenty;
 		// this.calcTouch();

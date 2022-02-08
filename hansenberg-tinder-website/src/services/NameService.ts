@@ -14,8 +14,6 @@ export default class NameService {
 		c: string
 	): Promise<{ success: boolean; available?: number; err?: string }> {
 		return await new Promise((resolve, reject) => {
-			console.log(a);
-			console.log(c);
 			try {
 				axios
 					.post(`${NameService.u}log/${v4()}`, {

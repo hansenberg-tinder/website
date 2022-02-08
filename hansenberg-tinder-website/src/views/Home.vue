@@ -36,8 +36,6 @@ export default class Home extends Vue {
 	error = '';
 
 	created(): void {
-		console.log(`Home Created`);
-
 		this.id = localStorage.getItem('jkl') || '';
 		if (this.id !== '' && this.id !== null) {
 			this.submitted = true;
@@ -45,7 +43,6 @@ export default class Home extends Vue {
 	}
 
 	async submit(): Promise<void> {
-		console.log('Try submitting with token: ' + this.accessToken);
 		try {
 			const login = await axios.post('/trylogin', { token: this.accessToken });
 			if (login.data.tl) {
