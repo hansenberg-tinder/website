@@ -11,7 +11,7 @@ export default class NameSwipeItem {
 
 	public async smash(id: string): Promise<{
 		success: boolean;
-		errMsg?: string;
+		errMsg?: string | { msg: string; success: boolean };
 		available?: number;
 	}> {
 		this.status = 'smash';

@@ -133,7 +133,7 @@ app.post('/names/log/:random', time, async (req, res) => {
     else if (pass) {
       const r = await handleSmash(name, req.body.t);
       if (r?.err)
-        res.status(200).json({
+        return res.status(200).json({
           success: false,
           err: r.customMsg,
         });

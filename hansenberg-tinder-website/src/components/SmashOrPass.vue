@@ -109,7 +109,10 @@ export default class SmashOrPass extends Vue {
 			if (!dontCall) this.animationdone({ animationName: 'smash' });
 			this.available = result.available || '?';
 		} else {
-			this.error = result.errMsg || '';
+			if (typeof result.errMsg !== 'string') {
+				this.error = result.errMsg?.msg || '';
+			} else if (typeof result.errMsg == 'string')
+				this.error = result.errMsg || '';
 		}
 	}
 

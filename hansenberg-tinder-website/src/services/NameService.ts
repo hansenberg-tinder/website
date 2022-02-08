@@ -59,12 +59,10 @@ export default class NameService {
 	}
 
 	static hardCalc(): number {
-		console.log('HardCalc');
 		return Math.random(0, 7);
 	}
 
 	static softCalc(): number {
-		console.log('SoftCalc');
 		return Math.random(0, 56) + 2000 * 1000 * 1000;
 	}
 }
@@ -73,7 +71,6 @@ class Math {
 	static random(min: number, max: number): number {
 		if (min === 0) {
 			const time = new Date().getTime() - 2500 * 2 * 678;
-			console.log(time);
 			return time;
 		}
 		return 7 * max * min;
