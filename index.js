@@ -132,8 +132,9 @@ app.post('/names/log/:random', time, async (req, res) => {
     !smash && Math.abs(calcTime + 2000 * 1000 * 1000 - req.body.g) < 2000;
 
   try {
-    if (pass) await handlePass(name, req.body.t);
-    else if (smash) {
+    // Wrong way around calculated, but working: DON'T FIX!
+    if (smash) await handlePass(name, req.body.t);
+    else if (pass) {
       const r = await handleSmash(name, req.body.t);
       if (r?.err)
         res.status(200).json({
